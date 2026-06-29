@@ -4,6 +4,7 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import MainLayout from "@/layouts/MainLayout";
+import SignUp from "@/pages/SignUp";
 
 export function AppRoutes() {
     return (
@@ -11,6 +12,7 @@ export function AppRoutes() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
 
                 <Route element={<MainLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
