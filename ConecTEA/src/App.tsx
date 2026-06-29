@@ -1,13 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { AppRoutes } from "@/routes/AppRoutes";
 
 function App() {
-  return (
-    <div className="p-10">
-      <Button>
-        ConecTEA
-      </Button>
-    </div>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
