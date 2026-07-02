@@ -5,6 +5,7 @@ import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import MainLayout from "@/layouts/MainLayout";
 import SignUp from "@/pages/SignUp";
+import Therapist from "@/pages/therapist/Therapist";
 
 export function AppRoutes() {
     return (
@@ -19,6 +20,7 @@ export function AppRoutes() {
                 </Route>
                 <Route path="/lessons" element={<h1>Lessons</h1>} />
                 <Route path="/profile" element={<h1>Profile</h1>} />
+                <Route path="/therapist" element={<Therapist />} />
 
             </Routes>
         </BrowserRouter>
