@@ -6,3 +6,8 @@ export const Roles = {
 } as const;
 
 export const roleMap: Record<UserRole, number> = Roles;
+
+export const roleMapInverse = {
+  1: "Guardian",
+  2: "Therapist",
+} as const;

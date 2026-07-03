@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import { login } from "@/services/auth";
 import { saveSession, saveToken } from "@/services/storage";
+import { roleMapInverse } from "@/constants/roles";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -34,7 +35,9 @@ export default function Login() {
       
       console.log(response);
 
-      switch (response.role) {
+      const role = roleMapInverse[response.role as keyof typeof roleMapInverse];
+      
+      switch (role) {
         case "Therapist":
           navigate("/therapist");
           break;

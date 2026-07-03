@@ -7,7 +7,7 @@ export interface LoginResponse {
   userId: string;
   email: string;
   token: string;
-  role: string;
+  role: number;
 }
 
 export interface SignUpRequest {
