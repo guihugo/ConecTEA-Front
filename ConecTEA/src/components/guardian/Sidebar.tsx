@@ -24,14 +24,14 @@ export default function Sidebar() {
                     ConecTEA
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                    Painel do Terapeuta
+                    Painel do Responsável
                 </p>
             </div>
 
             <nav className="flex flex-col gap-2 p-4">
 
                 <NavLink
-                    to="/therapist"
+                    to="/guardian"
                     end
                     className={({ isActive }) =>
                         `${baseClass} ${isActive ? activeClass : inactiveClass}`
@@ -41,18 +41,9 @@ export default function Sidebar() {
                     Dashboard
                 </NavLink>
 
-                <NavLink
-                    to="/therapist/patients"
-                    className={({ isActive }) =>
-                        `${baseClass} ${isActive ? activeClass : inactiveClass}`
-                    }
-                >
-                    <Users size={20} />
-                    Pacientes
-                </NavLink>
 
                 <NavLink
-                    to="/therapist/reports"
+                    to="/guardian/reports"
                     className={({ isActive }) =>
                         `${baseClass} ${isActive ? activeClass : inactiveClass}`
                     }
@@ -62,17 +53,7 @@ export default function Sidebar() {
                 </NavLink>
 
                 <NavLink
-                    to="/therapist/statistics"
-                    className={({ isActive }) =>
-                        `${baseClass} ${isActive ? activeClass : inactiveClass}`
-                    }
-                >
-                    <BarChart3 size={20} />
-                    Estatísticas
-                </NavLink>
-
-                <NavLink
-                    to="/therapist/settings"
+                    to="/guardian/settings"
                     className={({ isActive }) =>
                         `${baseClass} ${isActive ? activeClass : inactiveClass}`
                     }

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,8 +25,9 @@ import { signUp } from "@/services/auth";
 import type { UserRole } from "@/types/user";
 import { roleMap } from "@/constants/roles";
 
-
 export default function SignUp() {
+    const navigate = useNavigate();
+
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -36,7 +39,7 @@ export default function SignUp() {
         e.preventDefault();
 
         try {
-            const response = await signUp({
+            await signUp({
                 fullName: name,
                 email,
                 password,
@@ -44,10 +47,15 @@ export default function SignUp() {
                 role: roleMap[role],
             });
 
-            console.log(response);
+            toast.success("Conta criada com sucesso!");
+
+            setTimeout(() => {
+                navigate("/login");
+            }, 800);
 
         } catch (error) {
             console.error(error);
+            toast.error("Erro ao criar conta");
         }
     }
 
@@ -55,15 +63,12 @@ export default function SignUp() {
         <div className="flex min-h-screen items-center justify-center bg-muted">
             <Card className="w-[400px]">
                 <CardHeader>
-                    <CardTitle>
-                        Criar conta no ConecTEA
-                    </CardTitle>
+                    <CardTitle>Criar conta no ConecTEA</CardTitle>
                 </CardHeader>
 
                 <CardContent>
                     <form className="space-y-4" onSubmit={handleSignUp}>
 
-                        {/* Name */}
                         <div className="space-y-2">
                             <Label>Nome</Label>
                             <Input
@@ -73,7 +78,6 @@ export default function SignUp() {
                             />
                         </div>
 
-                        {/* Email */}
                         <div className="space-y-2">
                             <Label>Email</Label>
                             <Input
@@ -84,7 +88,6 @@ export default function SignUp() {
                             />
                         </div>
 
-                        {/* Password */}
                         <div className="space-y-2">
                             <Label>Senha</Label>
                             <Input
@@ -95,7 +98,6 @@ export default function SignUp() {
                             />
                         </div>
 
-                        {/* Date of Birth */}
                         <div className="space-y-2">
                             <Label>Data de nascimento</Label>
                             <Input
@@ -105,7 +107,6 @@ export default function SignUp() {
                             />
                         </div>
 
-                        {/* Role */}
                         <div className="space-y-2">
                             <Label>Tipo de conta</Label>
 
@@ -131,8 +132,7 @@ export default function SignUp() {
                             </Select>
                         </div>
 
-                        {/* Button */}
-                        <Button className="w-full">
+                        <Button className="w-full" type="submit">
                             Criar conta
                         </Button>
 
