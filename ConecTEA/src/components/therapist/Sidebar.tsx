@@ -1,6 +1,22 @@
-import { LayoutDashboard, Users, FileText, BarChart3, Settings } from "lucide-react";
+import {
+    LayoutDashboard,
+    Users,
+    FileText,
+    BarChart3,
+    Settings,
+} from "lucide-react";
+
+import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
+    const baseClass =
+        "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors";
+
+    const activeClass =
+        "bg-primary text-primary-foreground";
+    const inactiveClass =
+        "hover:bg-muted";
+
     return (
         <aside className="w-64 border-r bg-white">
             <div className="border-b p-6">
@@ -14,30 +30,56 @@ export default function Sidebar() {
 
             <nav className="flex flex-col gap-2 p-4">
 
-                <button className="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-muted">
-                    <LayoutDashboard size={20}/>
+                <NavLink
+                    to="/therapist"
+                    end
+                    className={({ isActive }) =>
+                        `${baseClass} ${isActive ? activeClass : inactiveClass}`
+                    }
+                >
+                    <LayoutDashboard size={20} />
                     Dashboard
-                </button>
+                </NavLink>
 
-                <button className="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-muted">
-                    <Users size={20}/>
+                <NavLink
+                    to="/therapist/patients"
+                    className={({ isActive }) =>
+                        `${baseClass} ${isActive ? activeClass : inactiveClass}`
+                    }
+                >
+                    <Users size={20} />
                     Pacientes
-                </button>
+                </NavLink>
 
-                <button className="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-muted">
-                    <FileText size={20}/>
+                <NavLink
+                    to="/therapist/reports"
+                    className={({ isActive }) =>
+                        `${baseClass} ${isActive ? activeClass : inactiveClass}`
+                    }
+                >
+                    <FileText size={20} />
                     Relatórios
-                </button>
+                </NavLink>
 
-                <button className="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-muted">
-                    <BarChart3 size={20}/>
+                <NavLink
+                    to="/therapist/statistics"
+                    className={({ isActive }) =>
+                        `${baseClass} ${isActive ? activeClass : inactiveClass}`
+                    }
+                >
+                    <BarChart3 size={20} />
                     Estatísticas
-                </button>
+                </NavLink>
 
-                <button className="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-muted">
-                    <Settings size={20}/>
+                <NavLink
+                    to="/therapist/settings"
+                    className={({ isActive }) =>
+                        `${baseClass} ${isActive ? activeClass : inactiveClass}`
+                    }
+                >
+                    <Settings size={20} />
                     Configurações
-                </button>
+                </NavLink>
 
             </nav>
         </aside>

@@ -11,7 +11,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+
 import { signUp } from "@/services/auth";
+import type { UserRole } from "@/types/user";
+import { roleMap } from "@/constants/roles";
+
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -19,15 +30,18 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const [birthDate, setBirthDate] = useState("");
 
+    const [role, setRole] = useState<UserRole>("Guardian");
+
     async function handleSignUp(e: React.FormEvent) {
         e.preventDefault();
 
         try {
             const response = await signUp({
-                name,
+                fullName: name,
                 email,
                 password,
-                birthDate,
+                dateOfBirth: birthDate,
+                role: roleMap[role],
             });
 
             console.log(response);
@@ -47,15 +61,11 @@ export default function SignUp() {
                 </CardHeader>
 
                 <CardContent>
-                    <form
-                        className="space-y-4"
-                        onSubmit={handleSignUp}
-                    >
-                        <div className="space-y-2">
-                            <Label>
-                                Nome
-                            </Label>
+                    <form className="space-y-4" onSubmit={handleSignUp}>
 
+                        {/* Name */}
+                        <div className="space-y-2">
+                            <Label>Nome</Label>
                             <Input
                                 placeholder="Seu nome"
                                 value={name}
@@ -63,12 +73,9 @@ export default function SignUp() {
                             />
                         </div>
 
-
+                        {/* Email */}
                         <div className="space-y-2">
-                            <Label>
-                                Email
-                            </Label>
-
+                            <Label>Email</Label>
                             <Input
                                 type="email"
                                 placeholder="email@exemplo.com"
@@ -77,12 +84,9 @@ export default function SignUp() {
                             />
                         </div>
 
-
+                        {/* Password */}
                         <div className="space-y-2">
-                            <Label>
-                                Senha
-                            </Label>
-
+                            <Label>Senha</Label>
                             <Input
                                 type="password"
                                 placeholder="••••••••"
@@ -91,12 +95,9 @@ export default function SignUp() {
                             />
                         </div>
 
-
+                        {/* Date of Birth */}
                         <div className="space-y-2">
-                            <Label>
-                                Data de nascimento
-                            </Label>
-
+                            <Label>Data de nascimento</Label>
                             <Input
                                 type="date"
                                 value={birthDate}
@@ -104,7 +105,33 @@ export default function SignUp() {
                             />
                         </div>
 
+                        {/* Role */}
+                        <div className="space-y-2">
+                            <Label>Tipo de conta</Label>
 
+                            <Select
+                                value={role}
+                                onValueChange={(value) =>
+                                    setRole(value as UserRole)
+                                }
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Selecione o tipo de conta" />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    <SelectItem value="Therapist">
+                                        Terapeuta
+                                    </SelectItem>
+
+                                    <SelectItem value="Guardian">
+                                        Responsável
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Button */}
                         <Button className="w-full">
                             Criar conta
                         </Button>
