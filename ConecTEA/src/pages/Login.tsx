@@ -13,7 +13,8 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 
 import { login } from "@/services/auth";
-import { saveToken } from "@/services/storage";
+import { saveSession, saveToken } from "@/services/storage";
+import { roleMapInverse } from "@/constants/roles";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -28,64 +29,78 @@ export default function Login() {
         email,
         password,
       });
+
       saveToken(response.token);
+      saveSession(response);
+      
       console.log(response);
 
-      console.log("tentando navegar");
-      navigate("/dashboard");
-      console.log("navegou");
+      const role = roleMapInverse[response.role as keyof typeof roleMapInverse];
+      
+      switch (role) {
+        case "Therapist":
+          navigate("/therapist");
+          break;
+
+        case "Guardian":
+          navigate("/guardian");
+          break;
+
+        default:
+          navigate("/");
+          break;
+      }
 
     } catch (error) {
       console.error(error);
     }
   }
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-muted">
+        <Card className="w-[400px]">
+          <CardHeader>
+            <CardTitle>
+              Entrar no ConecTEA
+            </CardTitle>
+          </CardHeader>
 
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <Card className="w-[400px]">
-        <CardHeader>
-          <CardTitle>
-            Entrar no ConecTEA
-          </CardTitle>
-        </CardHeader>
+          <CardContent>
+            <form
+              className="space-y-4"
+              onSubmit={handleLogin}
+            >
 
-        <CardContent>
-          <form
-            className="space-y-4"
-            onSubmit={handleLogin}
-          >
+              <div className="space-y-2">
+                <Label>Email</Label>
 
-            <div className="space-y-2">
-              <Label>Email</Label>
-
-              <Input
-                type="email"
-                placeholder="email@exemplo.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-
-            <div className="space-y-2">
-              <Label>Senha</Label>
-
-              <Input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+                <Input
+                  type="email"
+                  placeholder="email@exemplo.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
 
-            <Button className="w-full">
-              Entrar
-            </Button>
+              <div className="space-y-2">
+                <Label>Senha</Label>
 
-          </form>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+
+              <Button className="w-full">
+                Entrar
+              </Button>
+
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
