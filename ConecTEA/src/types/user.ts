@@ -1,1 +1,8 @@
-export type UserRole = "Therapist" | "Guardian";
+import type { UserRole } from "./roles";
+
+export interface User {
+  id: string;
+  fullName: string;
+  email: string;
+  role: UserRole;
+}

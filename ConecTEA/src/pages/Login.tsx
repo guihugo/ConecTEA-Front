@@ -13,13 +13,16 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 
 import { login } from "@/services/auth";
-import { saveSession, saveToken } from "@/services/storage";
+import { saveSession, saveToken } from "@/storage/storage";
 import { roleMapInverse } from "@/constants/roles";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
+
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -29,14 +32,14 @@ export default function Login() {
         email,
         password,
       });
-
+  
       saveToken(response.token);
       saveSession(response);
-      
-      console.log(response);
 
-      const role = roleMapInverse[response.role as keyof typeof roleMapInverse];
-      
+      const role = roleMapInverse[
+        response.role as keyof typeof roleMapInverse
+      ];
+
       switch (role) {
         case "Therapist":
           navigate("/therapist");
@@ -51,56 +54,57 @@ export default function Login() {
           break;
       }
 
+
     } catch (error) {
       console.error(error);
     }
   }
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-muted">
-        <Card className="w-[400px]">
-          <CardHeader>
-            <CardTitle>
-              Entrar no ConecTEA
-            </CardTitle>
-          </CardHeader>
 
-          <CardContent>
-            <form
-              className="space-y-4"
-              onSubmit={handleLogin}
-            >
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-muted">
+      <Card className="w-[400px]">
+        <CardHeader>
+          <CardTitle>
+            Entrar no ConecTEA
+          </CardTitle>
+        </CardHeader>
 
-              <div className="space-y-2">
-                <Label>Email</Label>
+        <CardContent>
+          <form
+            className="space-y-4"
+            onSubmit={handleLogin}
+          >
 
-                <Input
-                  type="email"
-                  placeholder="email@exemplo.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
+            <div className="space-y-2">
+              <Label>Email</Label>
 
-
-              <div className="space-y-2">
-                <Label>Senha</Label>
-
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
+              <Input
+                type="email"
+                placeholder="email@exemplo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
 
-              <Button className="w-full">
-                Entrar
-              </Button>
+            <div className="space-y-2">
+              <Label>Senha</Label>
 
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+              <Input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <Button className="w-full">
+              Entrar
+            </Button>
+
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
