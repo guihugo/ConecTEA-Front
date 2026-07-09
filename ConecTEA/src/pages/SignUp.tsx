@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 
 import { signUp } from "@/services/auth";
-import type { UserRole } from "@/types/user";
+import type { UserRole } from "@/types/roles";
 import { roleMap } from "@/constants/roles";
 
 export default function SignUp() {
@@ -32,6 +32,7 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [birthDate, setBirthDate] = useState("");
+    const [gender, setGender] = useState("");
 
     const [role, setRole] = useState<UserRole>("Guardian");
 
@@ -121,12 +122,12 @@ export default function SignUp() {
                                 </SelectTrigger>
 
                                 <SelectContent>
-                                    <SelectItem value="Therapist">
-                                        Terapeuta
+                                    <SelectItem value="Male">
+                                        Masculino
                                     </SelectItem>
 
-                                    <SelectItem value="Guardian">
-                                        Responsável
+                                    <SelectItem value="Female">
+                                        Feminino
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
