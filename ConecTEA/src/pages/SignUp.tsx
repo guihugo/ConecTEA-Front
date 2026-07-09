@@ -122,12 +122,12 @@ export default function SignUp() {
                                 </SelectTrigger>
 
                                 <SelectContent>
-                                    <SelectItem value="Male">
-                                        Masculino
+                                    <SelectItem value="Therapist">
+                                        Terapeuta
                                     </SelectItem>
 
-                                    <SelectItem value="Female">
-                                        Feminino
+                                    <SelectItem value="Guardian">
+                                        Responsável
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
