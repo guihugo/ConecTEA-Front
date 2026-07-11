@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { getSession } from "@/services/storage";
+import { getSession } from "@/storage/storage";
 import { roleMapInverse } from "@/constants/roles";
 
 interface ProtectedRouteProps {
@@ -8,10 +8,8 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
     const session = getSession();
-    console.log("ProtectedRoute session:", session);
 
     const role = roleMapInverse[session.role as keyof typeof roleMapInverse];
-    console.log("ProtectedRoute role:", role);
     
     if (!session) {
         return <Navigate to="/login" replace />;

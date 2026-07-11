@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import Sidebar from "@/components/therapist/Sidebar";
-import Header from "@/components/therapist/Header";
+import Sidebar from "@/components/layout/Sidebar";
+import Header from "@/components/layout/Header";
 
 export default function TherapistLayout() {
     return (

@@ -1,4 +1,4 @@
-import type { LoginResponse } from "@/services/auth";
+import type { LoginResponse } from "@/types/auth";
 
 const TOKEN_KEY = "conectea_token";
 const SESSION = "conectea_session";
