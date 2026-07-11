@@ -42,10 +42,12 @@ export default function Login() {
 
       switch (role) {
         case "Therapist":
+          console.log("Navigating to therapist");
           navigate("/therapist");
           break;
 
         case "Guardian":
+          console.log("Navigating to guardian");
           navigate("/guardian");
           break;
 

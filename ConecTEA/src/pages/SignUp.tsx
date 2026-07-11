@@ -32,8 +32,6 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [birthDate, setBirthDate] = useState("");
-    const [gender, setGender] = useState("");
-
     const [role, setRole] = useState<UserRole>("Guardian");
 
     async function handleSignUp(e: React.FormEvent) {
