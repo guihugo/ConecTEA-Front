@@ -13,16 +13,12 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 
 import { login } from "@/services/auth";
-import { saveSession, saveToken } from "@/storage/storage";
-import { roleMapInverse } from "@/constants/roles";
-
+import { saveToken } from "@/services/storage";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
-
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -32,30 +28,12 @@ export default function Login() {
         email,
         password,
       });
-  
       saveToken(response.token);
-      saveSession(response);
+      console.log(response);
 
-      const role = roleMapInverse[
-        response.role as keyof typeof roleMapInverse
-      ];
-
-      switch (role) {
-        case "Therapist":
-          console.log("Navigating to therapist");
-          navigate("/therapist");
-          break;
-
-        case "Guardian":
-          console.log("Navigating to guardian");
-          navigate("/guardian");
-          break;
-
-        default:
-          navigate("/");
-          break;
-      }
-
+      console.log("tentando navegar");
+      navigate("/dashboard");
+      console.log("navegou");
 
     } catch (error) {
       console.error(error);
@@ -99,6 +77,7 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+
 
             <Button className="w-full">
               Entrar
