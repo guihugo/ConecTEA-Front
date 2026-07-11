@@ -1,17 +1,23 @@
 import api from "./api";
-import type {
-  LoginRequest,
-  LoginResponse,
-  SignUpRequest,
-  SignUpResponse,
-} from "@/types/auth";
 
-export async function login(data: LoginRequest): Promise<LoginResponse> {
-  const response = await api.post<LoginResponse>("/auth/login", data);
-  return response.data;
+interface LoginRequest {
+  email: string;
+  password: string;
 }
 
-export async function signUp(data: SignUpRequest): Promise<SignUpResponse> {
-  const response = await api.post<SignUpResponse>("/auth/register", data);
+interface LoginResponse {
+  userId: string;
+  email: string;
+  token: string;
+}
+
+
+export async function login(data: LoginRequest): Promise<LoginResponse> {
+
+  const response = await api.post<LoginResponse>(
+    "/auth/login",
+    data
+  );
+
   return response.data;
 }
