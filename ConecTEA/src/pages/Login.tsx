@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ArrowLeft } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,7 +33,7 @@ export default function Login() {
         email,
         password,
       });
-  
+
       saveToken(response.token);
       saveSession(response);
 
@@ -66,6 +67,17 @@ export default function Login() {
     <div className="flex min-h-screen items-center justify-center bg-muted">
       <Card className="w-[400px]">
         <CardHeader>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mb-2 w-fit"
+            onClick={() => navigate("/")}
+            type="button"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Voltar
+          </Button>
+
           <CardTitle>
             Entrar no ConecTEA
           </CardTitle>
