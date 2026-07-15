@@ -15,7 +15,6 @@ export default function Sidebar() {
 
     const { user } = useAuth();
 
-
     if (!user) {
         return null;
     }
@@ -24,9 +23,6 @@ export default function Sidebar() {
         Number(user.role) as keyof typeof roleMapInverse
     ];
     const isTherapist = role === "Therapist";
-
-
-
 
     const menuItems = isTherapist
         ? [

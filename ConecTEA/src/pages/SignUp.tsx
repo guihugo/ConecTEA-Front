@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { toast } from "sonner";
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +11,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft, Eye, EyeOff, CheckCircle2, Circle } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, CheckCircle2, Circle, AlertCircle } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,6 +37,7 @@ export default function SignUp() {
     const [birthDate, setBirthDate] = useState("");
     const [role, setRole] = useState<UserRole>("Guardian");
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
     const passwordRules = [
         {
             label: "Pelo menos 8 caracteres",
@@ -61,6 +64,28 @@ export default function SignUp() {
     async function handleSignUp(e: React.FormEvent) {
         e.preventDefault();
 
+        setError("");
+
+        if (!name.trim()) {
+            setError("Informe seu nome.");
+            return;
+        }
+
+        if (!email.trim()) {
+            setError("Informe seu e-mail.");
+            return;
+        }
+
+        if (!password) {
+            setError("Informe uma senha.");
+            return;
+        }
+
+        if (!birthDate) {
+            setError("Informe sua data de nascimento.");
+            return;
+        }
+
         try {
             await signUp({
                 fullName: name,
@@ -76,9 +101,18 @@ export default function SignUp() {
                 navigate("/login");
             }, 800);
 
-        } catch (error) {
-            console.error(error);
-            toast.error("Erro ao criar conta");
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                const data = err.response?.data;
+
+                if (Array.isArray(data?.errors) && data.errors.length > 0) {
+                    setError(data.errors[0]);
+                } else {
+                    setError("Erro ao criar conta.");
+                }
+            } else {
+                setError("Erro inesperado.");
+            }
         }
     }
 
@@ -209,6 +243,12 @@ export default function SignUp() {
                                 </SelectContent>
                             </Select>
                         </div>
+                        {error && (
+                            <div className="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+                                <AlertCircle className="h-4 w-4 shrink-0" />
+                                <span>{error}</span>
+                            </div>
+                        )}
 
                         <Button className="w-full" type="submit">
                             Criar conta

@@ -3,7 +3,6 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function Header() {
     const { user } = useAuth();
-    console.log("Header user:", user);
     if (!user) {
         return null;
     }
