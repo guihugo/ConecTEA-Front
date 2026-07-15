@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { toast } from "sonner";
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,6 +11,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { ArrowLeft, Eye, EyeOff, CheckCircle2, Circle, AlertCircle } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,9 +36,55 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const [birthDate, setBirthDate] = useState("");
     const [role, setRole] = useState<UserRole>("Guardian");
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
+    const passwordRules = [
+        {
+            label: "Pelo menos 8 caracteres",
+            valid: password.length >= 8,
+        },
+        {
+            label: "Uma letra maiúscula",
+            valid: /[A-Z]/.test(password),
+        },
+        {
+            label: "Uma letra minúscula",
+            valid: /[a-z]/.test(password),
+        },
+        {
+            label: "Um número",
+            valid: /\d/.test(password),
+        },
+        {
+            label: "Um caractere especial",
+            valid: /[^A-Za-z0-9]/.test(password),
+        },
+    ];
 
     async function handleSignUp(e: React.FormEvent) {
         e.preventDefault();
+
+        setError("");
+
+        if (!name.trim()) {
+            setError("Informe seu nome.");
+            return;
+        }
+
+        if (!email.trim()) {
+            setError("Informe seu e-mail.");
+            return;
+        }
+
+        if (!password) {
+            setError("Informe uma senha.");
+            return;
+        }
+
+        if (!birthDate) {
+            setError("Informe sua data de nascimento.");
+            return;
+        }
 
         try {
             await signUp({
@@ -52,9 +101,18 @@ export default function SignUp() {
                 navigate("/login");
             }, 800);
 
-        } catch (error) {
-            console.error(error);
-            toast.error("Erro ao criar conta");
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                const data = err.response?.data;
+
+                if (Array.isArray(data?.errors) && data.errors.length > 0) {
+                    setError(data.errors[0]);
+                } else {
+                    setError("Erro ao criar conta.");
+                }
+            } else {
+                setError("Erro inesperado.");
+            }
         }
     }
 
@@ -62,9 +120,21 @@ export default function SignUp() {
         <div className="flex min-h-screen items-center justify-center bg-muted">
             <Card className="w-[400px]">
                 <CardHeader>
-                    <CardTitle>Criar conta no ConecTEA</CardTitle>
-                </CardHeader>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="mb-2 w-fit"
+                        onClick={() => navigate("/")}
+                        type="button"
+                    >
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Voltar
+                    </Button>
 
+                    <CardTitle>
+                        Criar conta no ConecTEA
+                    </CardTitle>
+                </CardHeader>
                 <CardContent>
                     <form className="space-y-4" onSubmit={handleSignUp}>
 
@@ -89,12 +159,55 @@ export default function SignUp() {
 
                         <div className="space-y-2">
                             <Label>Senha</Label>
-                            <Input
-                                type="password"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+
+                            <div className="relative">
+                                <Input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="pr-10"
+                                />
+
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? (
+                                        <EyeOff className="h-4 w-4" />
+                                    ) : (
+                                        <Eye className="h-4 w-4" />
+                                    )}
+                                </Button>
+                            </div>
+
+                            <div className="space-y-1 pt-1">
+                                {passwordRules.map((rule) => (
+                                    <div
+                                        key={rule.label}
+                                        className="flex items-center gap-2 text-sm"
+                                    >
+                                        {rule.valid ? (
+                                            <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                        ) : (
+                                            <Circle className="h-4 w-4 text-gray-400" />
+                                        )}
+
+                                        <span
+                                            className={
+                                                rule.valid
+                                                    ? "text-green-600"
+                                                    : "text-muted-foreground"
+                                            }
+                                        >
+                                            {rule.label}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="space-y-2">
@@ -130,6 +243,12 @@ export default function SignUp() {
                                 </SelectContent>
                             </Select>
                         </div>
+                        {error && (
+                            <div className="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+                                <AlertCircle className="h-4 w-4 shrink-0" />
+                                <span>{error}</span>
+                            </div>
+                        )}
 
                         <Button className="w-full" type="submit">
                             Criar conta
