@@ -129,7 +129,7 @@ export default function Login() {
                 className="h-11 rounded-lg border-neutral-300 pr-20"
               />
 
-              <button
+              <Button
                 type="button"
                 onClick={() =>
                   setShowPassword(
@@ -141,7 +141,7 @@ export default function Login() {
                   right-3
                   top-1/2
                   -translate-y-1/2
-                  flex
+                  fle x
                   items-center
                   gap-1
                   text-[11px]
@@ -162,7 +162,7 @@ export default function Login() {
                     Mostrar
                   </>
                 )}
-              </button>
+              </Button>
             </div>
 
             {error && (
@@ -189,19 +189,22 @@ export default function Login() {
             </Button>
 
             <div className="flex flex-col gap-2 pt-2">
-              <button
+              <Button
                 type="button"
+                variant="link"
                 className="w-fit text-xs text-[#3B6FD8] hover:underline"
               >
                 Esqueci minha senha
-              </button>
+              </Button>
 
-              <button
+              <Button
                 type="button"
+                variant="link"
                 className="w-fit text-xs text-[#3B6FD8] hover:underline"
+                onClick={() => navigate("/signup")}
               >
                 Criar conta
-              </button>
+              </Button>
             </div>
           </form>
         </CardContent>
