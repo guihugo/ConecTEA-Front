@@ -40,7 +40,7 @@ export default function Login() {
 
       const role =
         roleMapInverse[
-          response.role as keyof typeof roleMapInverse
+        response.role as keyof typeof roleMapInverse
         ];
 
       switch (role) {
@@ -59,7 +59,7 @@ export default function Login() {
       if (axios.isAxiosError(err)) {
         setError(
           err.response?.data?.error ??
-            "Erro ao fazer login."
+          "Erro ao fazer login."
         );
       } else {
         setError("Erro inesperado.");
@@ -131,37 +131,22 @@ export default function Login() {
 
               <Button
                 type="button"
-                onClick={() =>
-                  setShowPassword(
-                    !showPassword
-                  )
-                }
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowPassword((prev) => !prev)}
                 className="
-                  absolute
-                  right-3
-                  top-1/2
-                  -translate-y-1/2
-                  fle x
-                  items-center
-                  gap-1
-                  text-[11px]
-                  font-medium
-                  uppercase
-                  text-neutral-500
-                  hover:text-neutral-700
-                "
+                absolute
+                right-2
+                top-1/2
+                -translate-y-1/2
+                h-8
+                w-8
+                text-muted-foreground
+                hover:bg-transparent
+                hover:text-foreground
+              "
               >
-                {showPassword ? (
-                  <>
-                    <EyeOff size={14} />
-                    Ocultar
-                  </>
-                ) : (
-                  <>
-                    <Eye size={14} />
-                    Mostrar
-                  </>
-                )}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </Button>
             </div>
 
