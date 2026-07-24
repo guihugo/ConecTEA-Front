@@ -14,6 +14,7 @@ import GuardianDashboard from "@/pages/guardian/GuardianDashboard";
 import GuardianLayout from "@/layouts/GuardianLayout";
 import TherapistDashboard from "@/pages/therapist/TherapistDashboard";
 import GuardianReports from "@/pages/guardian/GuardianReport";
+import PatientDetailsPage from "@/pages/patients/:id/PatientDetailsPage";
 
 export function AppRoutes() {
     return (
@@ -33,6 +34,7 @@ export function AppRoutes() {
 
                         <Route index element={<TherapistDashboard />} />
                         <Route path="patients" element={<Patients />} />
+                        <Route path="patients/:id" element={<PatientDetailsPage />} />
                         <Route path="reports" element={<Reports />} />
                         <Route path="statistics" element={<Statistics />} />
                         <Route path="settings" element={<Settings />} />

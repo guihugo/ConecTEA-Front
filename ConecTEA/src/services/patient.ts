@@ -34,8 +34,13 @@ export async function createPatient(request: CreatePatientRequest): Promise<Crea
 
 export async function getAllPatients(): Promise<Patient[]> {
   const { data } = await api.get<Patient[]>(
-    "/Patient/therapist/patients" 
+    "therapist/patients/all" 
   ); 
     
+  return data;
+}
+
+export async function getPatientById(id: string): Promise<Patient> {
+  const { data } = await api.get<Patient>(`Patient/${id}`);
   return data;
 }

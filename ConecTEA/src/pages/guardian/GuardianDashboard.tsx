@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { hasLinkedPatient } from "@/services/guardian";
+import { getLinkedPatient, hasLinkedPatient } from "@/services/guardian";
 import { acceptInvitation } from "@/services/invitation";
 
 export default function GuardianDashboard() {
@@ -15,6 +15,11 @@ export default function GuardianDashboard() {
         async function load() {
             const response = await hasLinkedPatient();
             setHasLinked(response);
+
+            if (response) {
+                const patient = await getLinkedPatient();
+                console.log("Paciente:", patient);
+            }
         }
 
         load();
