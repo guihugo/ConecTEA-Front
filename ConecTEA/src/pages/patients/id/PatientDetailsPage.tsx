@@ -18,11 +18,13 @@ export default function PatientDetailsPage() {
     const [patient, setPatient] = useState<Patient | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const [reportsRefreshKey, setReportsRefreshKey] = useState(0);
+    const [appointmentsRefreshKey, setAppointmentsRefreshKey] = useState(0);
+
     useEffect(() => {
         async function loadPatient() {
             try {
                 if (!id) return;
-                console.log(id)
                 const data = await getPatientById(id);
 
                 setPatient(data);
@@ -53,22 +55,37 @@ export default function PatientDetailsPage() {
                 Voltar
             </button>
 
-            <PatientHeader patient={patient} />
+            <PatientHeader
+                patient={patient}
+                onReportCreated={() =>
+                    setReportsRefreshKey(prev => prev + 1)
+                }
+                onAppointmentCreated={() =>
+                    setAppointmentsRefreshKey(prev => prev + 1)
+                }
+            />
 
             <PatientInfoCard patient={patient} />
 
             <div className="grid gap-6 lg:grid-cols-2">
 
-                <NextAppointmentCard patientId={patient.id} />
+                <NextAppointmentCard
+                    patientId={patient.id}
+                    refreshKey={appointmentsRefreshKey}
+                />
 
                 <ReportsCard
                     patientId={patient.id}
                     patientName={patient.fullName}
+                    refreshKey={reportsRefreshKey}
                 />
 
             </div>
 
-            <AppointmentHistoryCard patientId={patient.id} />
+            <AppointmentHistoryCard
+                patientId={patient.id}
+                refreshKey={appointmentsRefreshKey}
+            />
 
         </div>
     );

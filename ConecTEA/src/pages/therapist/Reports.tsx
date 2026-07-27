@@ -33,6 +33,7 @@ import {
 
 import {
     getAllReportsByTherapist,
+    deleteReport,
     type Report,
 } from "@/services/report";
 
@@ -43,7 +44,6 @@ export default function Reports() {
     const [reports, setReports] = useState<Report[]>([]);
     const [selectedReport, setSelectedReport] = useState<Report | null>(null);
     const [loading, setLoading] = useState(true);
-
     const [selectedPatient, setSelectedPatient] =
         useState<Patient | null>(null);
 
@@ -54,9 +54,7 @@ export default function Reports() {
 
 
     async function loadData() {
-
         try {
-
             const [patientsData, reportsData] = await Promise.all([
                 getAllPatients(),
                 getAllReportsByTherapist(),
@@ -66,33 +64,25 @@ export default function Reports() {
             setReports(reportsData);
 
         } catch (error) {
-
             console.error(error);
-
         } finally {
-
             setLoading(false);
-
         }
 
     }
 
 
     function getPatientName(patientId: string) {
-
         return (
             patients.find(
                 patient => patient.id === patientId
             )?.fullName ?? "-"
         );
-
     }
 
 
     function getReportType(type: number) {
-
         switch (type) {
-
             case 1:
                 return "Sessão";
             case 2:
@@ -102,9 +92,7 @@ export default function Reports() {
         }
     }
 
-
     function getStatus(status: number) {
-
         switch (status) {
             case 1:
                 return "Rascunho";
@@ -113,12 +101,17 @@ export default function Reports() {
             default:
                 return "Desconhecido";
         }
+    }
 
+
+    async function handleDeleteReport(id: string) {
+        await deleteReport(id);
+        setSelectedReport(null);
+        await loadData();
     }
 
 
     return (
-
         <div className="space-y-6 p-6">
             <div className="flex items-center justify-between">
                 <div>
@@ -268,6 +261,8 @@ export default function Reports() {
                         report={selectedReport}
                         patientName={getPatientName(selectedReport.patientId)}
                         onClose={() => setSelectedReport(null)}
+                        onDelete={handleDeleteReport}
+                        onUpdated={loadData}
                     />
                 )
             }

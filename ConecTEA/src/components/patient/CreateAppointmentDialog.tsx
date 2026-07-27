@@ -17,13 +17,14 @@ interface Props {
     patientId: string;
     open: boolean;
     onClose: () => void;
-
+    onCreated?: () => void;
 }
 
 export default function CreateAppointmentDialog({
     patientId,
     open,
-    onClose
+    onClose,
+    onCreated
 }: Props) {
 
     const [startTime, setStartTime] = useState("");
@@ -40,6 +41,7 @@ export default function CreateAppointmentDialog({
 
         console.log(body);
         await createAppointment(body);
+        onCreated?.();
         onClose();
     }
 

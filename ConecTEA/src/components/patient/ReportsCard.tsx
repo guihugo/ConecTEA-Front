@@ -1,30 +1,42 @@
-// components/patient/ReportsCard.tsx
-
 import { useEffect, useState } from "react";
 
 import ViewReportModal from "@/components/reports/ViewReportModal";
 
 import {
     getReportsByPatient,
+    deleteReport,
     type Report,
 } from "@/services/report";
 
 interface Props {
     patientId: string;
     patientName: string;
+    refreshKey?: number;
 }
 
 export default function ReportsCard({
     patientId,
     patientName,
+    refreshKey,
 }: Props) {
 
     const [reports, setReports] = useState<Report[]>([]);
     const [selectedReport, setSelectedReport] = useState<Report | null>(null);
 
+    async function loadData() {
+        const data = await getReportsByPatient(patientId);
+        setReports(data);
+    }
+
+    async function handleDeleteReport(id: string) {
+        await deleteReport(id);
+        setSelectedReport(null);
+        await loadData();
+    }
+
     useEffect(() => {
-        getReportsByPatient(patientId).then(setReports);
-    }, [patientId]);
+        loadData();
+    }, [patientId, refreshKey]);
 
     return (
         <>
@@ -66,6 +78,8 @@ export default function ReportsCard({
                     report={selectedReport}
                     patientName={patientName}
                     onClose={() => setSelectedReport(null)}
+                    onDelete={handleDeleteReport}
+                    onUpdated={loadData}
                 />
             )}
         </>

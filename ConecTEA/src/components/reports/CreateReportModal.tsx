@@ -9,10 +9,11 @@ import { createReport } from "@/services/report";
 interface Props {
     patient: Patient;
     onClose: () => void;
+    onCreated?: () => void;
 
 }
 
-export default function CreateReportModal({ patient, onClose }: Props) {
+export default function CreateReportModal({ patient, onClose, onCreated }: Props) {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -28,6 +29,8 @@ export default function CreateReportModal({ patient, onClose }: Props) {
                 content: description
             });
             console.log("Report created:", response);
+
+            onCreated?.();
         }
         catch (error) {
             console.error(error);

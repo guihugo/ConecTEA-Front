@@ -5,14 +5,18 @@ import { Button } from "@/components/ui/button";
 import type { Patient } from "@/services/patient";
 
 import CreateAppointmentDialog from "./CreateAppointmentDialog";
+import CreateReportModal from "@/components/reports/CreateReportModal";
 
 interface Props {
     patient: Patient;
+    onReportCreated?: () => void;
+    onAppointmentCreated: () => void;
 }
 
-export default function PatientHeader({ patient }: Props) {
+export default function PatientHeader({ patient, onReportCreated, onAppointmentCreated,}: Props) {
 
     const [open, setOpen] = useState(false);
+    const [reportModalOpen, setReportModalOpen] = useState(false);
 
     return (
         <>
@@ -36,6 +40,13 @@ export default function PatientHeader({ patient }: Props) {
                         Editar
                     </Button>
 
+                    <Button
+                        variant="outline"
+                        onClick={() => setReportModalOpen(true)}
+                    >
+                        Novo relatório
+                    </Button>
+
                     <Button onClick={() => setOpen(true)}>
                         Nova consulta
                     </Button>
@@ -48,7 +59,16 @@ export default function PatientHeader({ patient }: Props) {
                 patientId={patient.id}
                 open={open}
                 onClose={() => setOpen(false)}
+                onCreated={onAppointmentCreated}
             />
+
+            {reportModalOpen && (
+                <CreateReportModal
+                    patient={patient}
+                    onClose={() => setReportModalOpen(false)}
+                    onCreated={onReportCreated}
+                />
+            )}
         </>
     );
 }
