@@ -7,6 +7,11 @@ export interface CreateReportRequest {
     content: string
 }
 
+export interface UpdateReportRequest{
+    title: string;
+    content: string;
+    reportType: number;
+}
 export interface CreateReportResponse {
     reportId: string;
 }
@@ -45,4 +50,25 @@ export async function getAllReportsByTherapist() : Promise<Report[]> {
         `/reports`
     );
     return data;
+}
+export async function deleteReport(id: string): Promise<void> {
+    await api.delete(`/reports/${id}`);
+}
+
+
+export async function updateReport(id: string, request: CreateReportRequest) : Promise<void> {
+    console.log("Id:", id)
+    await api.put(
+        `/reports/${id}`,
+        request
+    );
+}
+
+export async function getOneReport(id: string): Promise<Report> {
+    const { data } = await api.get<any>(`/reports/${id}`);
+
+    return {
+        ...data,
+        content: data.encryptedContent,
+    };
 }
