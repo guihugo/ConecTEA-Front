@@ -15,6 +15,7 @@ import { login } from "@/services/auth";
 import { saveSession, saveToken } from "@/storage/storage";
 
 import logo from "@/assets/logo_conectea.png";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ export default function Login() {
 
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const { refreshUser } = useAuth();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -37,6 +40,8 @@ export default function Login() {
 
       saveToken(response.token);
       saveSession(response);
+
+      await refreshUser();
 
       const role =
         roleMapInverse[
