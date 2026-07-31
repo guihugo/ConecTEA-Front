@@ -4,6 +4,7 @@ import {
     User,
     ClipboardList
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -23,6 +24,7 @@ function formatDate(date: string) {
 }
 
 export default function PatientCard({ patient }: Props) {
+    const navigate = useNavigate();
     return (
         <div className="rounded-xl border bg-white p-5 shadow-sm transition hover:shadow-md">
             <h2 className="text-lg font-semibold">
@@ -59,20 +61,21 @@ export default function PatientCard({ patient }: Props) {
             </div>
 
             <button
-                className="
-                    mt-6
-                    w-full
-                    rounded-lg
-                    border
-                    py-2
-                    text-sm
-                    font-medium
-                    transition
-                    hover:bg-muted
-                "
-            >
-                Ver detalhes
-            </button>
+            onClick={() => navigate(`/therapist/patients/${patient.id}`)}
+            className="
+                mt-6
+                w-full
+                rounded-lg
+                border
+                py-2
+                text-sm
+                font-medium
+                transition
+                hover:bg-muted
+            "
+        >
+            Ver detalhes
+        </button>
         </div>
     );
 }
