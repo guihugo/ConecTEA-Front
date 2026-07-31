@@ -10,6 +10,8 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { roleMapInverse } from "@/constants/roles";
 
+import logo from "@/assets/logo_conectea.png";
+
 
 export default function Sidebar() {
 
@@ -87,9 +89,11 @@ export default function Sidebar() {
         <aside className="w-64 border-r bg-white">
 
             <div className="border-b p-6">
-                <h1 className="text-2xl font-bold text-primary">
-                    ConecTEA
-                </h1>
+                <img
+                    src={logo}
+                    alt="ConecTEA"
+                    className="mx-auto mb-8 h-12 w-auto object-contain"
+                />
 
                 <p className="text-sm text-muted-foreground">
                     {isTherapist
@@ -112,10 +116,9 @@ export default function Sidebar() {
                             to={item.path}
                             end={item.end}
                             className={({ isActive }) =>
-                                `${baseClass} ${
-                                    isActive
-                                        ? activeClass
-                                        : inactiveClass
+                                `${baseClass} ${isActive
+                                    ? activeClass
+                                    : inactiveClass
                                 }`
                             }
                         >

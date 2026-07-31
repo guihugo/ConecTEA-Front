@@ -15,6 +15,7 @@ import { login } from "@/services/auth";
 import { saveSession, saveToken } from "@/storage/storage";
 
 import logo from "@/assets/logo_conectea.png";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ export default function Login() {
 
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const { refreshUser } = useAuth();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -38,9 +41,11 @@ export default function Login() {
       saveToken(response.token);
       saveSession(response);
 
+      await refreshUser();
+
       const role =
         roleMapInverse[
-          response.role as keyof typeof roleMapInverse
+        response.role as keyof typeof roleMapInverse
         ];
 
       switch (role) {
@@ -59,7 +64,7 @@ export default function Login() {
       if (axios.isAxiosError(err)) {
         setError(
           err.response?.data?.error ??
-            "Erro ao fazer login."
+          "Erro ao fazer login."
         );
       } else {
         setError("Erro inesperado.");
@@ -129,40 +134,25 @@ export default function Login() {
                 className="h-11 rounded-lg border-neutral-300 pr-20"
               />
 
-              <button
+              <Button
                 type="button"
-                onClick={() =>
-                  setShowPassword(
-                    !showPassword
-                  )
-                }
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowPassword((prev) => !prev)}
                 className="
-                  absolute
-                  right-3
-                  top-1/2
-                  -translate-y-1/2
-                  flex
-                  items-center
-                  gap-1
-                  text-[11px]
-                  font-medium
-                  uppercase
-                  text-neutral-500
-                  hover:text-neutral-700
-                "
+                absolute
+                right-2
+                top-1/2
+                -translate-y-1/2
+                h-8
+                w-8
+                text-muted-foreground
+                hover:bg-transparent
+                hover:text-foreground
+              "
               >
-                {showPassword ? (
-                  <>
-                    <EyeOff size={14} />
-                    Ocultar
-                  </>
-                ) : (
-                  <>
-                    <Eye size={14} />
-                    Mostrar
-                  </>
-                )}
-              </button>
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </Button>
             </div>
 
             {error && (
@@ -189,19 +179,22 @@ export default function Login() {
             </Button>
 
             <div className="flex flex-col gap-2 pt-2">
-              <button
+              <Button
                 type="button"
+                variant="link"
                 className="w-fit text-xs text-[#3B6FD8] hover:underline"
               >
                 Esqueci minha senha
-              </button>
+              </Button>
 
-              <button
+              <Button
                 type="button"
+                variant="link"
                 className="w-fit text-xs text-[#3B6FD8] hover:underline"
+                onClick={() => navigate("/signup")}
               >
                 Criar conta
-              </button>
+              </Button>
             </div>
           </form>
         </CardContent>
