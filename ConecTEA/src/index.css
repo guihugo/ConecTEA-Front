@@ -47,9 +47,9 @@
 
   --popover-foreground: oklch(0.145 0 0);
 
-  --primary: oklch(0.205 0 0);
+  --primary: #3673d4;
 
-  --primary-foreground: oklch(0.985 0 0);
+  --primary-foreground: #ffffff;
 
   --secondary: oklch(0.97 0 0);
 
@@ -256,3 +256,20 @@ code {
     @apply bg-background text-foreground;}
   html {
     @apply font-sans;}}
+
+  
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: page-enter 0.25s ease-out;
+}

@@ -79,10 +79,10 @@ export default function Sidebar() {
         "flex items-center gap-3 rounded-lg px-3 py-2 transition-colors";
 
     const activeClass =
-        "bg-primary text-primary-foreground";
+        "bg-[#3B6FD8] text-white";
 
     const inactiveClass =
-        "hover:bg-muted";
+        "text-neutral-700 hover:bg-neutral-100";
 
 
     return (
