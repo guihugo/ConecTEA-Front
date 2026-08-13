@@ -19,6 +19,8 @@ import GuardianDashboard from "@/pages/guardian/GuardianDashboard";
 import GuardianReports from "@/pages/guardian/GuardianReport";
 
 import PatientDetailsPage from "@/pages/patients/id/PatientDetailsPage";
+import Pricing from "@/pages/Pricing";
+import Community from "@/pages/Community";
 
 export function AppRoutes() {
   return (
@@ -26,37 +28,31 @@ export function AppRoutes() {
       <Routes>
 
         <Route element={<AppLayout />}>
-
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-
-          <Route path="/lessons" element={<h1>Lessons</h1>} />
-          <Route path="/profile" element={<h1>Profile</h1>} />
+          <Route path="/pricing" element={<Pricing />} />
 
           <Route element={<ProtectedRoute allowedRoles={["Therapist"]} />}>
             <Route path="/therapist" element={<TherapistLayout />}>
-
               <Route index element={<TherapistDashboard />} />
               <Route path="patients" element={<Patients />} />
               <Route path="patients/:id" element={<PatientDetailsPage />} />
               <Route path="reports" element={<Reports />} />
               <Route path="statistics" element={<Statistics />} />
               <Route path="settings" element={<Settings />} />
-
+              <Route path="community" element={<Community />} />
             </Route>
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["Guardian"]} />}>
             <Route path="/guardian" element={<GuardianLayout />}>
-
               <Route index element={<GuardianDashboard />} />
               <Route path="reports" element={<GuardianReports />} />
               <Route path="settings" element={<Settings />} />
-
+              <Route path="community" element={<Community />} />
             </Route>
           </Route>
-
         </Route>
 
       </Routes>

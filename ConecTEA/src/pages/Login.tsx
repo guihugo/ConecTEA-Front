@@ -78,7 +78,12 @@ export default function Login() {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute left-6 top-6"
+        className="
+        absolute left-6 top-6
+        transition-all duration-200
+        hover:-translate-x-0.5
+        hover:bg-white/60
+      "
         onClick={() => navigate("/")}
       >
         <ArrowLeft className="h-5 w-5" />
@@ -86,52 +91,86 @@ export default function Login() {
 
       <Card
         className="
-          w-full
-          max-w-[360px]
-          rounded-2xl
-          border
-          border-neutral-200
-          bg-white
-          shadow-[0_4px_18px_rgba(0,0,0,0.08)]
-        "
+        page-enter
+        w-full
+        max-w-[360px]
+        rounded-2xl
+        border
+        border-neutral-200
+        bg-white
+        shadow-[0_4px_18px_rgba(0,0,0,0.08)]
+        transition-all
+        duration-300
+        hover:shadow-[0_8px_28px_rgba(0,0,0,0.09)]
+      "
       >
         <CardContent className="p-6">
 
-          <img
-            src={logo}
-            alt="ConecTEA"
-            className="mx-auto mb-8 h-12 w-auto object-contain"
-          />
-
-          <form
-            onSubmit={handleLogin}
-            className="space-y-4"
+          <div
+            className="login-item-enter"
+            style={{ animationDelay: "50ms" }}
           >
-            <Input
-              type="email"
-              placeholder="Informe seu e-mail"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError("");
-              }}
-              className="h-11 rounded-lg border-neutral-300"
+            <img
+              src={logo}
+              alt="ConecTEA"
+              className="
+              mx-auto mb-8 h-12 w-auto object-contain
+              transition-transform duration-300
+              hover:scale-[1.02]
+            "
             />
+          </div>
 
-            <div className="relative">
+          <form onSubmit={handleLogin} className="space-y-4">
+
+            <div
+              className="login-item-enter"
+              style={{ animationDelay: "100ms" }}
+            >
               <Input
-                type={
-                  showPassword
-                    ? "text"
-                    : "password"
-                }
+                type="email"
+                placeholder="Informe seu e-mail"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError("");
+                }}
+                className="
+                h-11
+                rounded-lg
+                border-neutral-300
+                transition-all
+                duration-200
+                focus:border-[#3B6FD8]
+                focus:ring-2
+                focus:ring-[#3B6FD8]/10
+              "
+              />
+            </div>
+
+            <div
+              className="login-item-enter relative"
+              style={{ animationDelay: "150ms" }}
+            >
+              <Input
+                type={showPassword ? "text" : "password"}
                 placeholder="Informe sua senha"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
                   setError("");
                 }}
-                className="h-11 rounded-lg border-neutral-300 pr-20"
+                className="
+                h-11
+                rounded-lg
+                border-neutral-300
+                pr-20
+                transition-all
+                duration-200
+                focus:border-[#3B6FD8]
+                focus:ring-2
+                focus:ring-[#3B6FD8]/10
+              "
               />
 
               <Button
@@ -143,28 +182,53 @@ export default function Login() {
                 absolute
                 right-2
                 top-1/2
-                -translate-y-1/2
                 h-8
                 w-8
+                -translate-y-1/2
                 text-muted-foreground
+                transition-all
+                duration-200
+                hover:scale-105
                 hover:bg-transparent
                 hover:text-foreground
               "
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? (
+                  <EyeOff size={18} />
+                ) : (
+                  <Eye size={18} />
+                )}
               </Button>
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+              <div
+                className="
+                login-item-enter
+                flex
+                items-center
+                gap-2
+                rounded-lg
+                border
+                border-red-200
+                bg-red-50
+                p-3
+                text-sm
+                text-red-600
+              "
+              >
                 <AlertCircle className="h-4 w-4 shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
-            <Button
-              type="submit"
-              className="
+            <div
+              className="login-item-enter"
+              style={{ animationDelay: "200ms" }}
+            >
+              <Button
+                type="submit"
+                className="
                 h-10
                 w-24
                 rounded-md
@@ -172,17 +236,41 @@ export default function Login() {
                 text-xs
                 font-semibold
                 tracking-wide
+                transition-all
+                duration-200
+                hover:-translate-y-0.5
                 hover:bg-[#2D5FC6]
+                hover:shadow-md
+                active:translate-y-0
+                active:scale-[0.98]
               "
-            >
-              ENTRAR
-            </Button>
+              >
+                ENTRAR
+              </Button>
+            </div>
 
-            <div className="flex flex-col gap-2 pt-2">
+            <div
+              className="
+              login-item-enter
+              flex
+              flex-col
+              gap-2
+              pt-2
+            "
+              style={{ animationDelay: "250ms" }}
+            >
               <Button
                 type="button"
                 variant="link"
-                className="w-fit text-xs text-[#3B6FD8] hover:underline"
+                className="
+                w-fit
+                text-xs
+                text-[#3B6FD8]
+                transition-all
+                duration-200
+                hover:translate-x-0.5
+                hover:underline
+              "
               >
                 Esqueci minha senha
               </Button>
@@ -190,12 +278,21 @@ export default function Login() {
               <Button
                 type="button"
                 variant="link"
-                className="w-fit text-xs text-[#3B6FD8] hover:underline"
+                className="
+                w-fit
+                text-xs
+                text-[#3B6FD8]
+                transition-all
+                duration-200
+                hover:translate-x-0.5
+                hover:underline
+              "
                 onClick={() => navigate("/signup")}
               >
                 Criar conta
               </Button>
             </div>
+
           </form>
         </CardContent>
       </Card>
