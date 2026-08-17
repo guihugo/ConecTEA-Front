@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 import {
     Dialog,
     DialogContent,
@@ -7,10 +8,12 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+
 
 import {
     Select,
@@ -20,11 +23,13 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
+
 import {
     updateReport,
     getOneReport,
     type Report,
 } from "@/services/report";
+
 
 interface Props {
     report: Report;
@@ -34,6 +39,7 @@ interface Props {
     onUpdated: () => void;
 }
 
+
 export default function ViewReportModal({
     report,
     patientName,
@@ -42,9 +48,12 @@ export default function ViewReportModal({
     onUpdated,
 }: Props) {
 
+
     const [currentReport, setCurrentReport] = useState<Report>(report);
 
+
     const [isEditing, setIsEditing] = useState(false);
+
 
     const [title, setTitle] = useState(currentReport.title);
     const [reportType, setReportType] = useState(
@@ -52,12 +61,15 @@ export default function ViewReportModal({
     );
     const [content, setContent] = useState(currentReport.content);
 
+
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
+
 
     async function handleSave() {
         try {
             setLoading(true);
+
 
             await updateReport(currentReport.id, {
                 patientId: currentReport.patientId,
@@ -67,16 +79,21 @@ export default function ViewReportModal({
             });
             const updatedReport = await getOneReport(currentReport.id);
 
+
             setCurrentReport(updatedReport);
             console.log("Updated report:", updatedReport)
+
 
             setTitle(updatedReport.title);
             setReportType(String(updatedReport.reportType));
             setContent(updatedReport.content);
 
+
             onUpdated();
 
+
             setIsEditing(false);
+
 
         } catch (error) {
             console.error(
@@ -84,30 +101,39 @@ export default function ViewReportModal({
                 error
             );
 
+
         } finally {
             setLoading(false);
         }
 
+
     }
 
+
     function handleCancelEdit() {
+
 
         setTitle(currentReport.title);
         setReportType(String(currentReport.reportType));
         setContent(currentReport.content);
 
+
         setIsEditing(false);
 
+
     }
+
 
     async function handleDelete() {
         const confirmed = window.confirm(
             "Deseja realmente excluir este relatório?"
         );
 
+
         if (!confirmed) {
             return;
         }
+
 
         try {
             setDeleting(true);
@@ -118,11 +144,14 @@ export default function ViewReportModal({
                 error
             );
 
+
         } finally {
             setDeleting(false);
         }
 
+
     }
+
 
     return (
         <Dialog
@@ -134,12 +163,14 @@ export default function ViewReportModal({
             }}
         >
             <DialogContent className="max-w-3xl">
-                <DialogHeader>
-                    <DialogTitle>
+                <DialogHeader className="min-w-0">
+                    <DialogTitle className="min-w-0 [overflow-wrap:anywhere] pr-6">
                         {isEditing ? "Editar relatório" : currentReport.title}
                     </DialogTitle>
 
+
                 </DialogHeader>
+
 
                 <div className="grid grid-cols-2 gap-6">
                     <div>
@@ -147,14 +178,17 @@ export default function ViewReportModal({
                             Paciente
                         </p>
 
+
                         <p>{patientName}</p>
                     </div>
-                    
+                   
                     <div>
+
 
                         <p className="text-sm text-muted-foreground">
                             Status
                         </p>
+
 
                         <Badge>
                             {
@@ -164,15 +198,19 @@ export default function ViewReportModal({
                             }
                         </Badge>
 
+
                     </div>
 
+
                     <div>
+
 
                         <p className="text-sm text-muted-foreground">
                             Título
                         </p>
                         {
                             isEditing ? (
+
 
                                 <Input
                                     value={title}
@@ -181,16 +219,22 @@ export default function ViewReportModal({
                                     }
                                 />
 
+
                             ) : (
 
-                                <p>{currentReport.title}</p>
+
+                                <p className="[overflow-wrap:anywhere]">{currentReport.title}</p>
+
 
                             )
                         }
 
+
                     </div>
 
+
                     <div>
+
 
                         <p className="text-sm text-muted-foreground">
                             Tipo
@@ -198,32 +242,43 @@ export default function ViewReportModal({
                         {
                             isEditing ? (
 
+
                                 <Select
                                     value={reportType}
                                     onValueChange={setReportType}
                                 >
 
+
                                     <SelectTrigger>
+
 
                                         <SelectValue />
 
+
                                     </SelectTrigger>
 
+
                                     <SelectContent>
+
 
                                         <SelectItem value="1">
                                             Sessão
                                         </SelectItem>
 
+
                                         <SelectItem value="2">
                                             Avaliação
                                         </SelectItem>
 
+
                                     </SelectContent>
+
 
                                 </Select>
 
+
                             ) : (
+
 
                                 <p>
                                     {
@@ -233,15 +288,19 @@ export default function ViewReportModal({
                                     }
                                 </p>
 
+
                             )
                         }
 
+
                     </div>
+
 
                     <div>
                         <p className="text-sm text-muted-foreground">
                             Criado em
                         </p>
+
 
                         <p>
                             {
@@ -253,10 +312,12 @@ export default function ViewReportModal({
                     </div>
                 </div>
 
+
                 <div className="space-y-2">
                     <p className="text-sm text-muted-foreground">
                         Conteúdo
                     </p>
+
 
                     {
                         isEditing ? (
@@ -268,6 +329,7 @@ export default function ViewReportModal({
                                 className="min-h-72"
                             />
 
+
                         ) : (
                             <div
                                 className="
@@ -275,6 +337,7 @@ export default function ViewReportModal({
                                     border
                                     p-4
                                     whitespace-pre-wrap
+                                    [overflow-wrap:anywhere]
                                     max-h-96
                                     overflow-y-auto
                                     bg-muted/30
@@ -283,8 +346,10 @@ export default function ViewReportModal({
                                 {currentReport.content}
                             </div>
 
+
                         )
                     }
+
 
                 </div>
                 <div className="flex justify-end gap-3 pt-4">
@@ -298,6 +363,7 @@ export default function ViewReportModal({
                                 >
                                     Cancelar
                                 </Button>
+
 
                                 <Button
                                     onClick={handleSave}
@@ -322,6 +388,7 @@ export default function ViewReportModal({
                                     Editar
                                 </Button>
 
+
                                 <Button
                                     variant="destructive"
                                     onClick={handleDelete}
@@ -340,6 +407,8 @@ export default function ViewReportModal({
             </DialogContent>
         </Dialog>
 
+
     );
+
 
 }
